@@ -2,15 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square(props) {
-	return (
-		<button 
-			className="square" 
-			onClick={props.onClick}
-		>
-			{props.value}
-		</button>
-	);
+class Square extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {className: "square"}
+	}
+
+	changeColor() {
+		this.setState({
+			className: "square-highlight",
+		});
+	}
+
+	render() {
+		return (
+			<button 
+				className={this.state.className}
+				onClick={() => this.props.onClick()}
+			>
+				{this.props.value}
+			</button>
+		);
+	}
 }
 
 class Board extends React.Component {
@@ -24,8 +37,16 @@ class Board extends React.Component {
 	}
 
 	render() {
+		const numbers = [0,1,2,3,4,5,6,7,8];
+		const list = numbers.map((n) => {
+			<div className="board-row">
+				{this.renderSquare(n)}
+			</div>
+		});
+
 		return (
 			<div>
+				
 				<div className="board-row">
 					{this.renderSquare(0)}
 					{this.renderSquare(1)}
